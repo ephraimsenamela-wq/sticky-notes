@@ -1,0 +1,30 @@
+{% extends "notes/base.html" %}
+{% block title %}All Notes — Sticky Notes{% endblock %}
+{% block content %}
+<div class="board-heading d-flex justify-content-between align-items-center mb-4">
+    <h1>My Board</h1>
+    <a href="{% url 'notes:note-create' %}" class="btn btn-add">+ New Note</a>
+</div>
+
+{% if notes %}
+<div class="notes-grid">
+    {% for note in notes %}
+    <article class="sticky sticky-{{ note.color }}">
+        <div class="pin"></div>
+        <h2><a href="{% url 'notes:note-detail' note.pk %}">{{ note.title }}</a></h2>
+        <p>{{ note.content|truncatewords:25 }}</p>
+        <small class="meta">Updated {{ note.updated_at|date:"d M Y H:i" }}</small>
+        <div class="card-actions">
+            <a href="{% url 'notes:note-detail' note.pk %}" class="btn btn-sm btn-light">View</a>
+            <a href="{% url 'notes:note-update' note.pk %}" class="btn btn-sm btn-outline-dark">Edit</a>
+            <a href="{% url 'notes:note-delete' note.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+        </div>
+    </article>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-board">
+    <p>No notes yet. Click <strong>+ New Note</strong> to create your first sticky note!</p>
+</div>
+{% endif %}
+{% endblock %}

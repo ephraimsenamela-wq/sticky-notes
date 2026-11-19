@@ -1,0 +1,26 @@
+{% extends "notes/base.html" %}
+{% block title %}{% if form.instance.pk %}Edit Note{% else %}New Note{% endif %} — Sticky Notes{% endblock %}
+{% block content %}
+<div class="form-wrap">
+    <h1>{% if form.instance.pk %}Edit Note{% else %}New Sticky Note{% endif %}</h1>
+    <form method="post" class="note-form">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label" for="{{ form.title.id_for_label }}">Title</label>
+            {{ form.title }}
+            {% if form.title.errors %}<div class="text-danger">{{ form.title.errors }}</div>{% endif %}
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="{{ form.content.id_for_label }}">Content</label>
+            {{ form.content }}
+            {% if form.content.errors %}<div class="text-danger">{{ form.content.errors }}</div>{% endif %}
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="{{ form.color.id_for_label }}">Colour</label>
+            {{ form.color }}
+        </div>
+        <button type="submit" class="btn btn-add">Save Note</button>
+        <a href="{% url 'notes:note-list' %}" class="btn btn-light">Cancel</a>
+    </form>
+</div>
+{% endblock %}
